@@ -120,6 +120,7 @@ function TabsTrigger({
 
 function TabsContent({
   className,
+  value,
   ...props
 }: React.ComponentProps<typeof TabsPrimitive.Content>) {
   return (
@@ -129,7 +130,7 @@ function TabsContent({
         "outline-none mt-2",
         className
       )}
-      asChild
+      value={value}
     >
       <motion.div
         initial={{ opacity: 0, y: 10 }}

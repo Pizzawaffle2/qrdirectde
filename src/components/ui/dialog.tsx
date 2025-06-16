@@ -3,7 +3,7 @@
 import * as React from "react"
 import * as DialogPrimitive from "@radix-ui/react-dialog"
 import { XIcon } from "lucide-react"
-import { motion, AnimatePresence } from "framer-motion"
+import { motion, AnimatePresence, easeOut } from "framer-motion"
 import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "@/lib/utils"
@@ -38,14 +38,14 @@ const overlayVariants = {
     opacity: 1,
     transition: { 
       duration: 0.3,
-      ease: "easeOut"
+      ease: easeOut
     }
   },
   exit: { 
     opacity: 0,
     transition: { 
       duration: 0.2,
-      ease: "easeIn"
+      ease: "easeIn" as const
     }
   }
 };
@@ -69,6 +69,7 @@ function DialogOverlay({
         initial="hidden"
         animate="visible"
         exit="exit"
+        className="h-full w-full"
       />
     </DialogPrimitive.Overlay>
   )
@@ -102,7 +103,7 @@ const contentAnimationVariants = {
     scale: 1,
     y: "-50%",
     transition: { 
-      type: "spring",
+      type: "spring" as const,
       damping: 25,
       stiffness: 300
     }
@@ -113,7 +114,7 @@ const contentAnimationVariants = {
     y: "-40%",
     transition: { 
       duration: 0.2,
-      ease: "easeIn"
+      ease: "easeIn" as const
     }
   },
   // Special animation for sheet variant
@@ -125,7 +126,7 @@ const contentAnimationVariants = {
     opacity: 1,
     y: "0%",
     transition: { 
-      type: "spring",
+      type: "spring" as const,
       damping: 25,
       stiffness: 300
     }
@@ -135,7 +136,7 @@ const contentAnimationVariants = {
     y: "100%",
     transition: { 
       duration: 0.2,
-      ease: "easeIn"
+      ease: "easeIn" as const
     }
   }
 };
@@ -143,7 +144,8 @@ const contentAnimationVariants = {
 interface DialogContentProps 
   extends React.ComponentProps<typeof DialogPrimitive.Content>,
     VariantProps<typeof contentVariants> {
-  showCloseButton?: boolean
+  showCloseButton?: boolean;
+  open?: boolean;
 }
 
 function DialogContent({

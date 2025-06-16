@@ -136,114 +136,71 @@ function DrawerContent({
 }: DrawerContentProps) {
   // Animation variants based on the side
   const getAnimationVariants = () => {
-    switch (side) {
-      case "left":
-        return {
-          hidden: { x: "-100%", opacity: 0 },
-          visible: { 
-            x: 0, 
-            opacity: 1,
-            transition: { 
-              type: "spring",
-              damping: 25,
-              stiffness: 300
-            }
-          },
-          exit: { 
-            x: "-100%", 
-            opacity: 0,
-            transition: { 
-              duration: 0.2,
-              ease: "easeIn"
-            }
+    if (side === "left" || side === "right") {
+      return {
+        hidden: { x: side === "left" ? -100 : 100, opacity: 0 },
+        visible: {
+          x: 0,
+          opacity: 1,
+          transition: {
+            type: "spring" as const,
+            damping: 25,
+            stiffness: 300
           }
-        };
-      case "top":
-        return {
-          hidden: { y: "-100%", opacity: 0 },
-          visible: { 
-            y: 0, 
-            opacity: 1,
-            transition: { 
-              type: "spring",
-              damping: 25,
-              stiffness: 300
-            }
-          },
-          exit: { 
-            y: "-100%", 
-            opacity: 0,
-            transition: { 
-              duration: 0.2,
-              ease: "easeIn"
-            }
+        },
+        exit: {
+          x: side === "left" ? -100 : 100,
+          opacity: 0,
+          transition: {
+            duration: 0.2,
+            ease: "easeIn" as const
           }
-        };
-      case "bottom":
-        return {
-          hidden: { y: "100%", opacity: 0 },
-          visible: { 
-            y: 0, 
-            opacity: 1,
-            transition: { 
-              type: "spring",
-              damping: 25,
-              stiffness: 300
-            }
-          },
-          exit: { 
-            y: "100%", 
-            opacity: 0,
-            transition: { 
-              duration: 0.2,
-              ease: "easeIn"
-            }
-          }
-        };
-      default: // right
-        return {
-          hidden: { x: "100%", opacity: 0 },
-          visible: { 
-            x: 0, 
-            opacity: 1,
-            transition: { 
-              type: "spring",
-              damping: 25,
-              stiffness: 300
-            }
-          },
-          exit: { 
-            x: "100%", 
-            opacity: 0,
-            transition: { 
-              duration: 0.2,
-              ease: "easeIn"
-            }
-          }
-        };
+        }
+      };
     }
+    return {
+      hidden: { y: side === "top" ? -100 : 100, opacity: 0 },
+      visible: {
+        y: 0,
+        opacity: 1,
+        transition: {
+          type: "spring" as const,
+          damping: 25,
+          stiffness: 300
+        }
+      },
+      exit: {
+        y: side === "top" ? -100 : 100,
+        opacity: 0,
+        transition: {
+          duration: 0.2,
+          ease: "easeIn" as const
+        }
+      }
+    };
   };
 
   return (
-    <motion.div
-      className={cn(drawerContentVariants({ side, size, className }))}
-      variants={getAnimationVariants()}
-      initial="hidden"
-      animate="visible"
-      exit="exit"
-      {...props}
-    >
-      {children}
-      {showCloseButton && onClose && (
-        <button
-          className="absolute top-4 right-4 rounded-full p-1.5 text-foreground/50 opacity-70 ring-offset-background transition-all hover:text-foreground hover:opacity-100 hover:bg-muted focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none"
-          onClick={onClose}
-        >
-          <XIcon className="h-4 w-4" />
-          <span className="sr-only">Close</span>
-        </button>
-      )}
-    </motion.div>
+    <div {...props}>
+      <motion.div
+        className={cn(drawerContentVariants({ side, size, className }))}
+        variants={getAnimationVariants()}
+        initial="hidden"
+        animate="visible"
+        exit="exit"
+      >
+        {children}
+        {showCloseButton && onClose && (
+          <button
+            className="absolute top-4 right-4 rounded-full p-1.5 text-foreground/50 opacity-70 ring-offset-background transition-all hover:text-foreground hover:opacity-100 hover:bg-muted focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none"
+            onClick={onClose}
+          >
+            <XIcon className="h-4 w-4" />
+            <span className="sr-only">Close</span>
+          </button>
+        )}
+      </motion.div>
+    </div>
   )
 }
 

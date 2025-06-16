@@ -4,9 +4,7 @@ import * as React from "react"
 import { ChevronLeft, ChevronRight, MoreHorizontal } from "lucide-react"
 import { motion } from "framer-motion"
 import { cva, type VariantProps } from "class-variance-authority"
-
 import { cn } from "@/lib/utils"
-import { Button } from "./button"
 
 const paginationVariants = cva(
   "flex items-center gap-1 transition-all duration-300 ease-[var(--spring)]",
@@ -101,7 +99,7 @@ const paginationItemVariants = cva(
 interface PaginationItemProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof paginationItemVariants> {
-  isActive?: boolean
+  isActive?: boolean | null
 }
 
 function PaginationItem({
@@ -135,6 +133,7 @@ function PaginationPrevious({
       aria-label="Go to previous page"
       variant={variant}
       size={size}
+      isActive={false}
       className={cn("gap-1", className)}
       {...props}
     >
@@ -156,6 +155,7 @@ function PaginationNext({
       aria-label="Go to next page"
       variant={variant}
       size={size}
+      isActive={false}
       className={cn("gap-1", className)}
       {...props}
     >
@@ -200,7 +200,7 @@ const itemAnimationVariants = {
     y: 0,
     transition: {
       duration: 0.3,
-      ease: "easeOut",
+      ease: "easeOut" as const,
     },
   },
 }
@@ -214,30 +214,34 @@ function AnimatedPagination({
   ...props
 }: AnimatedPaginationProps) {
   return (
-    <motion.nav
+    <nav
       role="navigation"
       aria-label="Pagination"
       className={cn(
         paginationVariants({ variant: props.variant, size: props.size, className: props.className })
       )}
-      variants={containerVariants}
-      initial="hidden"
-      animate="visible"
       {...props}
     >
-      {React.Children.map(children, (child) => {
-        if (!React.isValidElement(child)) return child;
-        
-        return (
-          <motion.div
-            variants={itemAnimationVariants}
-            className="flex"
-          >
-            {child}
-          </motion.div>
-        );
-      })}
-    </motion.nav>
+      <motion.div
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+        className="flex items-center gap-1"
+      >
+        {React.Children.map(children, (child) => {
+          if (!React.isValidElement(child)) return child;
+          
+          return (
+            <motion.div
+              variants={itemAnimationVariants}
+              className="flex"
+            >
+              {child}
+            </motion.div>
+          );
+        })}
+      </motion.div>
+    </nav>
   )
 }
 

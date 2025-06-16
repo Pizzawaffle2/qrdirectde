@@ -1,5 +1,4 @@
 "use client";
-import Image from "next/image";
 import { FloatingBackground, GradientBackground } from "@/components/ui/floating-background";
 import { Button } from "@/components/ui/button";
 import { RippleButton } from "@/components/ui/ripple-button";

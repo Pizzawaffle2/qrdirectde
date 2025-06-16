@@ -3,7 +3,7 @@
 import * as React from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { cn } from "@/lib/utils"
-import { RadioGroup, RadioGroupItem, radioGroupItemVariants } from "./radio-group"
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 
 export interface RadioOption {
   id: string

@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { motion } from "framer-motion"
+import { motion, HTMLMotionProps } from "framer-motion"
 import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "@/lib/utils"
@@ -88,9 +88,10 @@ const timelineItemVariants = cva(
   }
 )
 
-interface TimelineItemProps
-  extends React.HTMLAttributes<HTMLDivElement>,
-    VariantProps<typeof timelineItemVariants> {
+interface TimelineItemProps extends HTMLMotionProps<'div'> {
+  variant?: "default" | "centered";
+  position?: "left" | "right";
+  active?: boolean;
   animate?: boolean;
   index?: number;
 }
@@ -125,7 +126,7 @@ function TimelineItem({
   return (
     <div
       className={baseClasses}
-      {...props}
+      {...(props as React.HTMLAttributes<HTMLDivElement>)}
     />
   );
 }

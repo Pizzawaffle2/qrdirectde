@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { motion } from "framer-motion"
+import { motion, HTMLMotionProps } from "framer-motion"
 import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "@/lib/utils"
@@ -70,7 +70,7 @@ const listItemVariants = cva(
 )
 
 interface ListItemProps
-  extends React.LiHTMLAttributes<HTMLLIElement>,
+  extends HTMLMotionProps<"li">,
     VariantProps<typeof listItemVariants> {
   animate?: boolean;
   index?: number;
@@ -109,7 +109,7 @@ function ListItem({
   return (
     <li
       className={baseClasses}
-      {...props}
+      {...(props as React.LiHTMLAttributes<HTMLLIElement>)}
     />
   );
 }

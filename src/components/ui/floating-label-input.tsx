@@ -12,8 +12,8 @@ export function FloatingLabelInput({
   label,
   id,
   className,
-  variant = "default",
-  size = "default",
+  variant = "default" as const,
+  size = "default" as const,
   icon,
   error,
   ...props

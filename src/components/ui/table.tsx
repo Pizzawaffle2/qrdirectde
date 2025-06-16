@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { motion } from "framer-motion"
+import { motion, HTMLMotionProps } from "framer-motion"
 import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "@/lib/utils"
@@ -103,7 +103,7 @@ function TableFooter({ className, ...props }: React.ComponentProps<"tfoot">) {
   )
 }
 
-interface TableRowProps extends React.ComponentProps<"tr"> {
+interface TableRowProps extends HTMLMotionProps<'tr'> {
   isSelected?: boolean;
   animate?: boolean;
 }
@@ -144,7 +144,7 @@ function TableRow({
       data-slot="table-row"
       data-state={isSelected ? "selected" : undefined}
       className={baseClasses}
-      {...props}
+      {...(props as React.ComponentProps<'tr'>)}
     />
   );
 }

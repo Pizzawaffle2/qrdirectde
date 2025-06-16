@@ -125,7 +125,7 @@ function toast(props: ToastProps) {
   return sonnerToast.custom(
     (id) => (
       <Toast
-        id={id}
+        id={String(id)}
         title={title}
         description={description}
         variant={variant}
@@ -158,6 +158,5 @@ toast.error = (props: Omit<ToastProps, "variant">) => {
 };
 
 toast.dismiss = sonnerToast.dismiss;
-toast.remove = sonnerToast.remove;
 
 export { Toast, Toaster, toast, toastVariants }

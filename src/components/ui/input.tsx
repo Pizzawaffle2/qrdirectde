@@ -29,7 +29,7 @@ const inputVariants = cva(
 )
 
 export interface InputProps
-  extends React.InputHTMLAttributes<HTMLInputElement>,
+  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'>,
     VariantProps<typeof inputVariants> {
   icon?: React.ReactNode;
   error?: string;
@@ -53,7 +53,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             error && "border-destructive aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40",
           )}
           ref={ref}
-          aria-invalid={error ? "true" : undefined}
+          {...(error ? { "aria-invalid": "true" } : {})}
           {...props}
         />
         {error && (

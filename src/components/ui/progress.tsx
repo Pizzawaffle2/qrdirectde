@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import * as ProgressPrimitive from "@radix-ui/react-progress"
-import { motion } from "framer-motion"
+import { motion, easeInOut } from "framer-motion"
 import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "@/lib/utils"
@@ -77,7 +77,7 @@ function Progress({
       repeat: Infinity,
       repeatType: "reverse" as const,
       duration: 2,
-      ease: "easeInOut",
+      ease: easeInOut,
     },
   };
 
@@ -118,15 +118,10 @@ function Progress({
 }
 
 // Animated progress that increases from 0 to the target value
-interface AnimatedProgressProps extends ProgressProps {
-  duration?: number
-}
-
 function AnimatedProgress({
   value = 0,
-  duration = 1,
   ...props
-}: AnimatedProgressProps) {
+}: ProgressProps) {
   const [animatedValue, setAnimatedValue] = React.useState(0);
 
   React.useEffect(() => {
@@ -135,7 +130,7 @@ function AnimatedProgress({
 
     // Animate to the new value
     const timeout = setTimeout(() => {
-      setAnimatedValue(value);
+      setAnimatedValue(value ?? 0);
     }, 100);
 
     return () => clearTimeout(timeout);
@@ -149,7 +144,6 @@ function AnimatedProgress({
     >
       <Progress
         value={animatedValue}
-        transition={{ duration }}
         {...props}
       />
     </motion.div>

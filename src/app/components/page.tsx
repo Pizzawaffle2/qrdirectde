@@ -4,13 +4,10 @@ import React from "react"
 import {
   ArrowRight,
   Bell,
-  Calendar,
-  Check,
   ChevronRight,
-  Clock,
   Home,
-  Info,
-  Mail, Search,
+  Mail,
+  Search,
   Settings,
   Star,
   User
@@ -20,7 +17,7 @@ import { Button } from "@/components/ui/button"
 import { RippleButton } from "@/components/ui/ripple-button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { FloatingBackground, GradientBackground } from "@/components/ui/floating-background"
-import { HeroBadge, HeroBadgeWithIcon } from "@/components/ui/hero-badge"
+import { HeroBadgeWithIcon } from "@/components/ui/hero-badge"
 import { StatCard, GradientStatCard } from "@/components/ui/stat-card"
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
 import { Breadcrumb, BreadcrumbItem, BreadcrumbEllipsis } from "@/components/ui/breadcrumb"
@@ -29,7 +26,7 @@ import { toast, Toaster } from "@/components/ui/toast"
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert"
 import { Progress, AnimatedProgress } from "@/components/ui/progress"
 import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog"
-import { Drawer, DrawerTrigger, DrawerContent, DrawerHeader, DrawerTitle, DrawerDescription, DrawerBody, DrawerFooter } from "@/components/ui/drawer"
+import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerDescription, DrawerBody, DrawerFooter } from "@/components/ui/drawer"
 import { Table, TableHeader, TableBody, TableFooter, TableHead, TableRow, TableCell, TableCaption } from "@/components/ui/table"
 import { List, ListItem, ListItemContainer, ListItemIcon, ListItemContent, ListItemTitle, ListItemDescription, ListItemAction } from "@/components/ui/list"
 import { Timeline, TimelineItem, TimelineDot, TimelineCenteredDot, TimelineContent, TimelineTitle, TimelineDescription, TimelineTime, TimelineItemContainer } from "@/components/ui/timeline"
@@ -321,10 +318,10 @@ export default function ComponentsPage() {
 
                   <div>
                     <h3 className="text-lg font-medium mb-4">Pills Variant</h3>
-                    <Breadcrumb variant="pills">
-                      <BreadcrumbItem href="/" variant="pills">Home</BreadcrumbItem>
-                      <BreadcrumbItem href="/components" variant="pills">Components</BreadcrumbItem>
-                      <BreadcrumbItem isCurrent variant="pills">Breadcrumbs</BreadcrumbItem>
+                    <Breadcrumb>
+                      <BreadcrumbItem href="/">Home</BreadcrumbItem>
+                      <BreadcrumbItem href="/components">Components</BreadcrumbItem>
+                      <BreadcrumbItem isCurrent>Breadcrumbs</BreadcrumbItem>
                     </Breadcrumb>
                   </div>
                 </CardContent>
@@ -400,7 +397,7 @@ export default function ComponentsPage() {
 
                   <Alert variant="info">
                     <AlertTitle>Info Alert</AlertTitle>
-                    <AlertDescription>Here's some information you should know.</AlertDescription>
+                    <AlertDescription>Here&apos;s some information you should know.</AlertDescription>
                   </Alert>
 
                   <Alert variant="warning">
@@ -474,7 +471,7 @@ export default function ComponentsPage() {
 
                   <div>
                     <h3 className="text-lg font-medium mb-4">Animated Progress</h3>
-                    <AnimatedProgress value={75} duration={1.5} />
+                    <AnimatedProgress value={75} />
                   </div>
                 </CardContent>
               </Card>
@@ -948,9 +945,12 @@ export default function ComponentsPage() {
                             {id: "development", label: "Development", value: "development"},
                             {id: "marketing", label: "Marketing", value: "marketing"},
                           ]}
-                          orientation="vertical" value={[]} onChange={function (value: string[]): void {
-                        throw new Error("Function not implemented.")
-                      }}                      />
+                          orientation="vertical" 
+                          value={[]} 
+                          onChange={() => {
+                            // Handle checkbox group change
+                          }}
+                      />
                     </div>
                   </div>
 
