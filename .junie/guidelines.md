@@ -87,7 +87,9 @@ describe('YourComponent', () => {
 });
 ```
 
-### Example Test
+### Example Tests
+
+#### AnimatedBreadcrumbItem Test
 Here's an example test for the `AnimatedBreadcrumbItem` component:
 
 ```tsx
@@ -105,6 +107,45 @@ describe('AnimatedBreadcrumbItem', () => {
     render(<AnimatedBreadcrumbItem href="/home">Home</AnimatedBreadcrumbItem>);
     const link = screen.getByText('Home').closest('a');
     expect(link).toHaveAttribute('href', '/home');
+  });
+});
+```
+
+#### Button Test
+Here's an example test for the `Button` component:
+
+```tsx
+import { describe, it, expect } from 'vitest';
+import { render, screen } from '@testing-library/react';
+import { Button } from '../button';
+
+describe('Button', () => {
+  it('renders with the correct text', () => {
+    render(<Button>Click me</Button>);
+    expect(screen.getByRole('button', { name: 'Click me' })).toBeInTheDocument();
+  });
+
+  it('applies the correct variant class', () => {
+    const { container } = render(<Button variant="destructive">Destructive</Button>);
+    const button = screen.getByRole('button', { name: 'Destructive' });
+    expect(button).toHaveClass('bg-destructive');
+  });
+
+  it('applies the correct size class', () => {
+    const { container } = render(<Button size="lg">Large Button</Button>);
+    const button = screen.getByRole('button', { name: 'Large Button' });
+    expect(button).toHaveClass('h-12');
+  });
+
+  it('renders as a different element when asChild is true', () => {
+    render(
+      <Button asChild>
+        <a href="/test">Link Button</a>
+      </Button>
+    );
+    const link = screen.getByRole('link', { name: 'Link Button' });
+    expect(link).toHaveAttribute('href', '/test');
+    expect(link).toHaveClass('inline-flex');
   });
 });
 ```
@@ -152,3 +193,95 @@ Ensure all components are accessible by:
 - Implement code splitting where appropriate
 - Minimize bundle size by avoiding unnecessary dependencies
 - Use React.memo for expensive components that re-render often
+
+## API First Implementation
+
+The QR Direct DE project follows an API-first approach to ensure backend and frontend development are well-coordinated.
+
+### API Documentation Guidelines
+
+1. **API Endpoints**: Document all API endpoints with:
+   - HTTP method (GET, POST, PUT, DELETE)
+   - URL path
+   - Request parameters and body schema
+   - Response schema
+   - Error codes and messages
+   - Authentication requirements
+
+2. **Supabase Functions**: When creating Supabase Edge Functions:
+   - Document input/output parameters
+   - Include example requests and responses
+   - Document error handling
+
+3. **Type Definitions**: Create TypeScript interfaces for all API request and response objects:
+   ```typescript
+   // Example API type definitions
+   export interface CreateQRCodeRequest {
+     title: string;
+     url: string;
+     design?: QRCodeDesign;
+   }
+
+   export interface QRCodeResponse {
+     id: string;
+     title: string;
+     url: string;
+     design: QRCodeDesign;
+     createdAt: string;
+     updatedAt: string;
+   }
+   ```
+
+4. **API Services**: Create service functions to abstract API calls:
+   ```typescript
+   // Example API service
+   export const qrCodeService = {
+     async createQRCode(data: CreateQRCodeRequest): Promise<QRCodeResponse> {
+       const { data: response, error } = await supabase
+         .from('qr_codes')
+         .insert(data)
+         .select()
+         .single();
+
+       if (error) throw new Error(error.message);
+       return response;
+     },
+
+     // Other methods...
+   };
+   ```
+
+5. **API Testing**: Create tests for API services using Vitest:
+   ```typescript
+   import { describe, it, expect, vi } from 'vitest';
+   import { qrCodeService } from '../qr-code-service';
+   import { supabase } from '../supabase-client';
+
+   // Mock Supabase client
+   vi.mock('../supabase-client', () => ({
+     supabase: {
+       from: vi.fn().mockReturnThis(),
+       insert: vi.fn().mockReturnThis(),
+       select: vi.fn().mockReturnThis(),
+       single: vi.fn(),
+     },
+   }));
+
+   describe('QR Code Service', () => {
+     it('creates a QR code', async () => {
+       // Setup mock response
+       const mockResponse = { id: '123', title: 'Test QR', url: 'https://example.com' };
+       supabase.from().insert().select().single.mockResolvedValue({ data: mockResponse, error: null });
+
+       // Call service
+       const result = await qrCodeService.createQRCode({ title: 'Test QR', url: 'https://example.com' });
+
+       // Assert result
+       expect(result).toEqual(mockResponse);
+     });
+   });
+   ```
+
+6. **API Documentation Tools**: Consider using tools like Swagger/OpenAPI for comprehensive API documentation.
+
+By following these guidelines, the API development will be well-documented and coordinated with the frontend implementation.
