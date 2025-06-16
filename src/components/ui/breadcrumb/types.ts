@@ -43,11 +43,11 @@ export const breadcrumbItemVariants = cva(
 // Animation variants for breadcrumb items
 export const itemAnimationVariants = {
   hidden: { opacity: 0, x: -10 },
-  visible: (custom: number) => ({
+  visible: (custom: any) => ({ // Changed 'number' to 'any'
     opacity: 1,
     x: 0,
     transition: {
-      delay: custom * 0.1,
+      delay: (custom as number) * 0.1, // Added type assertion for calculation
       duration: 0.3,
       ease: "easeOut",
     },
@@ -71,4 +71,10 @@ export interface BreadcrumbItemProps
 }
 
 export class AnimatedBreadcrumbItemProps {
+    index?: number; // Position in animation sequence
+    className?: string; // Additional class names for styling
+    href?: string; // Optional link for the breadcrumb item
+    isCurrent?: boolean; // Indicates if this is the current page
+    icon?: React.ReactNode; // Optional icon to display in the breadcrumb item
+    children?: React.ReactNode; // Content of the breadcrumb item
 }

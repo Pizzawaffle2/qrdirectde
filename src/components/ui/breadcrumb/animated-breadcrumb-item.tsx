@@ -3,14 +3,13 @@ import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { BreadcrumbItem } from "./breadcrumb-item";
 import type { AnimatedBreadcrumbItemProps } from "./types";
-import {index, NestedInternMap} from "d3-array";
 
 /**
  * Custom hook that returns animation props for sequential animations
  * @param index - Position in animation sequence
  * @param variants - Animation variant configuration
  */
-function useSequentialAnimation(index: <TObject, TKeys extends unknown[]>(iterable: Iterable<TObject>, ...keys: { [Index in keyof TKeys]: (value: TObject, index: number, values: TObject[]) => TKeys[Index] }) => NestedInternMap<TObject, TObject, TKeys>, variants: typeof itemAnimationVariants) {
+function useSequentialAnimation(index: number | undefined, variants: typeof itemAnimationVariants) {
   return {
     variants,
     initial: "hidden",
@@ -23,21 +22,22 @@ function useSequentialAnimation(index: <TObject, TKeys extends unknown[]>(iterab
  * A breadcrumb item that animates into view with a sequential delay
  */
 export function AnimatedBreadcrumbItem({
-                                         index: number = 0,
-                                         className = "",
-                                         ...props
+                                           index = 0, // Corrected destructuring for default value
+                                           className = "",
+                                           ...props
                                        }: AnimatedBreadcrumbItemProps) {
-  const animationProps = useSequentialAnimation(index, itemAnimationVariants);
+    const animationProps = useSequentialAnimation(index, itemAnimationVariants);
 
-  return (
-      <motion.li
-          {...animationProps}
-          className={cn("flex items-center", className)}
-      >
-        <BreadcrumbItem {...props} />
-      </motion.li>
-  );
+    return (
+        <motion.div
+            {...animationProps}
+            className={cn("flex items-center", className)}
+        >
+            <BreadcrumbItem {...props} />
+        </motion.div>
+    );
 }
+
 
 // Animation configuration
 const itemAnimationVariants = {
