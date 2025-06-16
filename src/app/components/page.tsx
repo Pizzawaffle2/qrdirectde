@@ -1,19 +1,19 @@
 "use client"
 
 import React from "react"
-import { 
-  ArrowRight, 
-  Bell, 
-  Calendar, 
-  Check, 
-  ChevronRight, 
-  Clock, 
-  Home, 
-  Info, 
-  Mail, 
-  Settings, 
-  Star, 
-  User 
+import {
+  ArrowRight,
+  Bell,
+  Calendar,
+  Check,
+  ChevronRight,
+  Clock,
+  Home,
+  Info,
+  Mail, Search,
+  Settings,
+  Star,
+  User
 } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
@@ -942,14 +942,15 @@ export default function ComponentsPage() {
                     <h3 className="text-lg font-medium mb-4">Checkbox Group</h3>
                     <div className="max-w-md">
                       <CheckboxGroup
-                        label="Select your interests"
-                        options={[
-                          { id: "design", label: "Design", value: "design" },
-                          { id: "development", label: "Development", value: "development" },
-                          { id: "marketing", label: "Marketing", value: "marketing" },
-                        ]}
-                        orientation="vertical"
-                      />
+                          label="Select your interests"
+                          options={[
+                            {id: "design", label: "Design", value: "design"},
+                            {id: "development", label: "Development", value: "development"},
+                            {id: "marketing", label: "Marketing", value: "marketing"},
+                          ]}
+                          orientation="vertical" value={[]} onChange={function (value: string[]): void {
+                        throw new Error("Function not implemented.")
+                      }}                      />
                     </div>
                   </div>
 
@@ -1017,15 +1018,14 @@ export default function ComponentsPage() {
                     <h3 className="text-lg font-medium mb-4">Form Select</h3>
                     <div className="max-w-md">
                       <FormSelect
-                        label="Country"
-                        placeholder="Select your country"
-                        options={[
-                          { value: "us", label: "United States" },
-                          { value: "ca", label: "Canada" },
-                          { value: "uk", label: "United Kingdom" },
-                          { value: "au", label: "Australia" },
-                        ]}
-                      />
+                          label="Country"
+                          placeholder="Select your country"
+                          options={[
+                            {value: "us", label: "United States"},
+                            {value: "ca", label: "Canada"},
+                            {value: "uk", label: "United Kingdom"},
+                            {value: "au", label: "Australia"},
+                          ]} id={""}                      />
                     </div>
                   </div>
                 </CardContent>
