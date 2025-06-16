@@ -44,6 +44,29 @@ The project includes a set of custom components built on top of Shadcn UI, desig
 - **RadioGroup**: Enhanced radio group with variants and animations
 - **FormRadioGroup**: Complete radio selection field with label and error message
 
+### Navigation Components
+
+- **Tabs**: Tabbed interface with various styles (default, underline, pills, cards)
+- **Breadcrumb**: Breadcrumb navigation with various styles
+- **Pagination**: Pagination component with various styles (default, rounded, outline)
+
+### Feedback Components
+
+- **Alert**: Alert component with various states (default, success, info, warning, error)
+- **Progress**: Progress indicator with various styles and animations
+- **Toast**: Toast notification system for temporary messages
+
+### Modal Components
+
+- **Dialog**: Modal dialog for important interactions
+- **Drawer**: Side panel that slides in from the edge of the screen
+
+### Data Display Components
+
+- **Table**: Table component for displaying structured data
+- **List**: List component with various styles (default, separated, cards)
+- **Timeline**: Timeline component for displaying chronological events
+
 ### Background Components
 
 - **FloatingBackground**: Background with animated floating orbs

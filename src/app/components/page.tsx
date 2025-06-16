@@ -34,6 +34,13 @@ import { Table, TableHeader, TableBody, TableFooter, TableHead, TableRow, TableC
 import { List, ListItem, ListItemContainer, ListItemIcon, ListItemContent, ListItemTitle, ListItemDescription, ListItemAction } from "@/components/ui/list"
 import { Timeline, TimelineItem, TimelineDot, TimelineCenteredDot, TimelineContent, TimelineTitle, TimelineDescription, TimelineTime, TimelineItemContainer } from "@/components/ui/timeline"
 import { Input } from "@/components/ui/input"
+import { FloatingLabelInput } from "@/components/ui/floating-label-input"
+import { Checkbox } from "@/components/ui/checkbox"
+import { CheckboxGroup } from "@/components/ui/checkbox-group"
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select"
+import { FormSelect } from "@/components/ui/form-select"
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import { FormRadioGroup } from "@/components/ui/form-radio-group"
 
 export default function ComponentsPage() {
   // State for interactive components
@@ -62,11 +69,11 @@ export default function ComponentsPage() {
           >
             Creator-First Design System
           </HeroBadgeWithIcon>
-          
+
           <h1 className="text-4xl md:text-5xl font-bold mt-4 mb-2">
             Component Showcase
           </h1>
-          
+
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             A comprehensive showcase of all the UI components built with the Creator-First Design System.
           </p>
@@ -385,22 +392,22 @@ export default function ComponentsPage() {
                     <AlertTitle>Default Alert</AlertTitle>
                     <AlertDescription>This is a default alert component.</AlertDescription>
                   </Alert>
-                  
+
                   <Alert variant="success">
                     <AlertTitle>Success Alert</AlertTitle>
                     <AlertDescription>Your action was completed successfully.</AlertDescription>
                   </Alert>
-                  
+
                   <Alert variant="info">
                     <AlertTitle>Info Alert</AlertTitle>
                     <AlertDescription>Here's some information you should know.</AlertDescription>
                   </Alert>
-                  
+
                   <Alert variant="warning">
                     <AlertTitle>Warning Alert</AlertTitle>
                     <AlertDescription>Be careful with this action.</AlertDescription>
                   </Alert>
-                  
+
                   <Alert variant="error">
                     <AlertTitle>Error Alert</AlertTitle>
                     <AlertDescription>There was an error processing your request.</AlertDescription>
@@ -568,7 +575,7 @@ export default function ComponentsPage() {
                     <Button onClick={() => setDrawerOpen(true)}>
                       Open Drawer
                     </Button>
-                    
+
                     <Drawer open={drawerOpen} onOpenChange={setDrawerOpen}>
                       <DrawerContent side="right" onClose={() => setDrawerOpen(false)}>
                         <DrawerHeader>
@@ -860,26 +867,170 @@ export default function ComponentsPage() {
 
           {/* Forms Tab */}
           <TabsContent value="forms">
-            <Card>
-              <CardHeader>
-                <CardTitle>Form Components</CardTitle>
-                <CardDescription>Form components for user input</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-8">
-                <div>
-                  <h3 className="text-lg font-medium mb-4">Input</h3>
-                  <div className="space-y-4 max-w-md">
-                    <Input placeholder="Default input" />
-                    <Input placeholder="With icon" icon={<Mail className="h-4 w-4" />} />
-                    <Input placeholder="With error" error="This field is required" />
-                    <Input placeholder="Minimal style" variant="minimal" />
-                    <Input placeholder="Search input" variant="search" icon={<Search className="h-4 w-4" />} />
+            <div className="space-y-8">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Input Components</CardTitle>
+                  <CardDescription>Text input components for user input</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-8">
+                  <div>
+                    <h3 className="text-lg font-medium mb-4">Standard Input</h3>
+                    <div className="space-y-4 max-w-md">
+                      <Input placeholder="Default input" />
+                      <Input placeholder="With icon" icon={<Mail className="h-4 w-4" />} />
+                      <Input placeholder="With error" error="This field is required" />
+                      <Input placeholder="Minimal style" variant="minimal" />
+                      <Input placeholder="Search input" variant="search" icon={<Search className="h-4 w-4" />} />
+                    </div>
                   </div>
-                </div>
 
-                {/* Add more form components as needed */}
-              </CardContent>
-            </Card>
+                  <div>
+                    <h3 className="text-lg font-medium mb-4">Floating Label Input</h3>
+                    <div className="space-y-4 max-w-md">
+                      <FloatingLabelInput 
+                        id="floating-input-1" 
+                        label="Email" 
+                      />
+                      <FloatingLabelInput 
+                        id="floating-input-2" 
+                        label="Password" 
+                        type="password" 
+                      />
+                      <FloatingLabelInput 
+                        id="floating-input-3" 
+                        label="Username" 
+                        error="Username is already taken" 
+                      />
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle>Selection Components</CardTitle>
+                  <CardDescription>Components for selecting options</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-8">
+                  <div>
+                    <h3 className="text-lg font-medium mb-4">Checkbox</h3>
+                    <div className="space-y-4 max-w-md">
+                      <div className="flex items-center space-x-2">
+                        <Checkbox id="terms" />
+                        <label
+                          htmlFor="terms"
+                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                        >
+                          Accept terms and conditions
+                        </label>
+                      </div>
+
+                      <div className="flex items-center space-x-2">
+                        <Checkbox id="newsletter" variant="card" />
+                        <label
+                          htmlFor="newsletter"
+                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                        >
+                          Subscribe to newsletter
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <h3 className="text-lg font-medium mb-4">Checkbox Group</h3>
+                    <div className="max-w-md">
+                      <CheckboxGroup
+                        label="Select your interests"
+                        options={[
+                          { id: "design", label: "Design", value: "design" },
+                          { id: "development", label: "Development", value: "development" },
+                          { id: "marketing", label: "Marketing", value: "marketing" },
+                        ]}
+                        orientation="vertical"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <h3 className="text-lg font-medium mb-4">Radio Group</h3>
+                    <div className="max-w-md">
+                      <RadioGroup defaultValue="default">
+                        <div className="flex items-center space-x-2">
+                          <RadioGroupItem value="default" id="r1" />
+                          <label htmlFor="r1">Default</label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <RadioGroupItem value="comfortable" id="r2" />
+                          <label htmlFor="r2">Comfortable</label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <RadioGroupItem value="compact" id="r3" />
+                          <label htmlFor="r3">Compact</label>
+                        </div>
+                      </RadioGroup>
+                    </div>
+                  </div>
+
+                  <div>
+                    <h3 className="text-lg font-medium mb-4">Form Radio Group</h3>
+                    <div className="max-w-md">
+                      <FormRadioGroup
+                        label="Select a plan"
+                        options={[
+                          { id: "free", value: "free", label: "Free" },
+                          { id: "pro", value: "pro", label: "Pro" },
+                          { id: "enterprise", value: "enterprise", label: "Enterprise" },
+                        ]}
+                        orientation="vertical"
+                      />
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle>Dropdown Components</CardTitle>
+                  <CardDescription>Components for dropdown selection</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-8">
+                  <div>
+                    <h3 className="text-lg font-medium mb-4">Select</h3>
+                    <div className="max-w-md">
+                      <Select>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select a fruit" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="apple">Apple</SelectItem>
+                          <SelectItem value="banana">Banana</SelectItem>
+                          <SelectItem value="orange">Orange</SelectItem>
+                          <SelectItem value="grape">Grape</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+
+                  <div>
+                    <h3 className="text-lg font-medium mb-4">Form Select</h3>
+                    <div className="max-w-md">
+                      <FormSelect
+                        label="Country"
+                        placeholder="Select your country"
+                        options={[
+                          { value: "us", label: "United States" },
+                          { value: "ca", label: "Canada" },
+                          { value: "uk", label: "United Kingdom" },
+                          { value: "au", label: "Australia" },
+                        ]}
+                      />
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
           </TabsContent>
         </Tabs>
       </div>
