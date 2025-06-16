@@ -32,6 +32,7 @@ export function AnimatedBreadcrumbItem({
         <motion.div
             {...animationProps}
             className={cn("flex items-center", className)}
+            initial="hidden"
         >
             <BreadcrumbItem {...props} />
         </motion.div>
