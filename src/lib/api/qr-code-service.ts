@@ -1,101 +1,79 @@
-import { supabase, Tables, InsertTables, UpdateTables } from './supabase-client'
+import { useData, createRecord, updateRecord, deleteRecord, optimisticUpdate } from './supabase-service';
+import { handleSupabaseError } from '../utils/api-error';
+import { PostgrestError } from '@supabase/supabase-js';
 
-// Type aliases for better readability
-export type QRCode = Tables<'qr_codes'>
-export type QRCodeInsert = InsertTables<'qr_codes'>
-export type QRCodeUpdate = UpdateTables<'qr_codes'>
-
-/**
- * Service for QR code operations
- * 
- * This service provides functions for CRUD operations on QR codes using the Supabase client.
- * It abstracts away the details of the Supabase API and provides a clean interface for the application.
- */
-export const qrCodeService = {
-  /**
-   * Get all QR codes for the current user
-   */
-  async getQRCodes(): Promise<QRCode[]> {
-    const { data, error } = await supabase
-      .from('qr_codes')
-      .select('*')
-      .order('created_at', { ascending: false })
-
-    if (error) {
-      console.error('Error fetching QR codes:', error)
-      throw new Error(error.message)
-    }
-
-    return data || []
-  },
-
-  /**
-   * Get a single QR code by ID
-   */
-  async getQRCode(id: string): Promise<QRCode | null> {
-    const { data, error } = await supabase
-      .from('qr_codes')
-      .select('*')
-      .eq('id', id)
-      .single()
-
-    if (error) {
-      console.error(`Error fetching QR code with ID ${id}:`, error)
-      throw new Error(error.message)
-    }
-
-    return data
-  },
-
-  /**
-   * Create a new QR code
-   */
-  async createQRCode(qrCode: QRCodeInsert): Promise<QRCode> {
-    const { data, error } = await supabase
-      .from('qr_codes')
-      .insert(qrCode)
-      .select()
-      .single()
-
-    if (error) {
-      console.error('Error creating QR code:', error)
-      throw new Error(error.message)
-    }
-
-    return data
-  },
-
-  /**
-   * Update an existing QR code
-   */
-  async updateQRCode(id: string, updates: QRCodeUpdate): Promise<QRCode> {
-    const { data, error } = await supabase
-      .from('qr_codes')
-      .update(updates)
-      .eq('id', id)
-      .select()
-      .single()
-
-    if (error) {
-      console.error(`Error updating QR code with ID ${id}:`, error)
-      throw new Error(error.message)
-    }
-
-    return data
-  },
-
-  /**
-   * Delete a QR code
-   */
-  async deleteQRCode(id: string): Promise<void> {
-    const { error } = await supabase
-      .from('qr_codes')
-      .delete()
-      .eq('id', id)
-
-    if (error) {
-      console.error(`Error deleting QR code with ID ${id}:`, error)
-      throw new Error(error.message)
-    }
-  }
+export interface QRCode {
+  id: string;
+  title: string;
+  url: string;
+  design?: {
+    foregroundColor: string;
+    backgroundColor: string;
+    logo?: string;
+  };
+  createdAt: string;
+  updatedAt: string;
 }
+
+export interface CreateQRCodeData {
+  title: string;
+  url: string;
+  design?: QRCode['design'];
+}
+
+export type UpdateQRCodeData = Partial<CreateQRCodeData>;
+
+// Hook for fetching QR codes
+export function useQRCodes() {
+  return useData<QRCode>('qr_codes');
+}
+
+// Create a new QR code
+export const createQRCode = async (data: CreateQRCodeData) => {
+  try {
+    return await createRecord<QRCode>('qr_codes', {
+      ...data,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    });
+  } catch (error) {
+    handleSupabaseError(error as PostgrestError);
+  }
+};
+
+// Update an existing QR code
+export const updateQRCode = async (id: string, data: UpdateQRCodeData) => {
+  try {
+    return await updateRecord<QRCode>('qr_codes', id, {
+      ...data,
+      updatedAt: new Date().toISOString(),
+    });
+  } catch (error) {
+    handleSupabaseError(error as PostgrestError);
+  }
+};
+
+// Delete a QR code
+export const deleteQRCode = async (id: string) => {
+  try {
+    return await deleteRecord('qr_codes', id);
+  } catch (error) {
+    handleSupabaseError(error as PostgrestError);
+  }
+};
+
+// Optimistic update for QR codes
+export const optimisticQRCodeUpdate = async (
+  id: string,
+  data: UpdateQRCodeData,
+  mutate: (data: QRCode[] | undefined, shouldRevalidate?: boolean) => Promise<QRCode[] | undefined>
+) => {
+  try {
+    return await optimisticUpdate<QRCode>('qr_codes', id, {
+      ...data,
+      updatedAt: new Date().toISOString(),
+    }, mutate);
+  } catch (error) {
+    handleSupabaseError(error as PostgrestError);
+  }
+};
